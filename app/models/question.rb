@@ -7,4 +7,6 @@ class Question < ApplicationRecord
 
   belongs_to :quiz
   has_many :answers, dependent: :destroy
+
+  enum answer_type: %i[single multiple]
 end
