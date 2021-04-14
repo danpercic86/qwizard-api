@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Quiz, type: :model do
   it 'is valid if title present' do
-    quiz = described_class.new(title: 'test')
+    quiz = described_class.new(title: 'test', user: FactoryBot.create(:user))
     expect(quiz).to be_valid
   end
 
