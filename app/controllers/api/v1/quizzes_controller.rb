@@ -3,13 +3,16 @@
 module Api
   module V1
     class QuizzesController < AuthenticatedController
+      before_action :require_authentication, except: [:show]
+      before_action :require_authorisation, only: [:update, :destroy]
+
       def index
-        @quizzes = Quiz.all
+        @quizzes = current_user.quizzes
         render :index
       end
 
       def create
-        @quiz = Quiz.new(quiz_params)
+        @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id))
 
         if @quiz.save
           render :show, status: :created
@@ -24,7 +27,7 @@ module Api
       end
 
       def update
-        @quiz = Quiz.find(params[:id])
+        # @quiz = Quiz.find(params[:id])
 
         if @quiz.update(quiz_params)
           render :show
@@ -34,13 +37,18 @@ module Api
       end
 
       def destroy
-        @quiz = Quiz.find(params[:id])
+        # @quiz = Quiz.find(params[:id])
         @quiz.destroy
 
         render :show
       end
 
       private
+
+      def require_authorisation
+        @quiz = Quiz.find(params[:id])
+        head 401 if @quiz.user != current_user
+      end
 
       def quiz_params
         params.require(:quiz).permit(:title)

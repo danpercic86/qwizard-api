@@ -11,6 +11,10 @@ module Api
       def require_authentication
         head :unauthorized if session[:user_id].nil?
       end
+
+      def current_user
+        User.find(session[:user_id])
+      end
     end
   end
 end
