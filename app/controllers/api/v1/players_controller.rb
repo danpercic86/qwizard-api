@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class PlayersController < ApplicationController
+    class PlayersController < AuthenticatedController
       def index
         @players = Player.all
         render :index

@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class LobbiesController < ApplicationController
+    class LobbiesController < AuthenticatedController
       def index
         @lobbies = Lobby.all
         render :index

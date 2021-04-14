@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class AnswersController < ApplicationController
+    class AnswersController < AuthenticatedController
       def index
         @answers = Answer.all
         render :index
