@@ -3,13 +3,15 @@
 module Api
   module V1
     class QuestionsController < AuthenticatedController
+      before_action :set_quiz, only: [:index, :create]
+
       def index
-        @questions = Question.all
+        @questions = @quiz.questions.all
         render :index
       end
 
       def create
-        @question = Question.new(question_params)
+        @question = Question.new(question_params.merge(quiz_id: @quiz.id))
 
         if @question.save
           render :show, status: :created
@@ -43,7 +45,11 @@ module Api
       private
 
       def question_params
-        params.require(:question).permit(:title, :points, :time_limit, :answer_type, :order, :quiz_id)
+        params.require(:question).permit(:title, :points, :time_limit, :answer_type, :order)
+      end
+
+      def set_quiz
+        @quiz = Quiz.find(params[:quiz_id])
       end
     end
   end
