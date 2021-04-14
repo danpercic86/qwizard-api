@@ -9,6 +9,11 @@ Rails.application.routes.draw do
       resources :lobbies
       resources :players
       resources :player_answers
+      resources :users
+
+      post :login, to: 'sessions#login'
+      get :me, to: 'sessions#me'
+      delete :logout, to: 'sessions#logout'
     end
   end
 end
