@@ -5,6 +5,6 @@ class Quiz < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :lobbies, dependent: :destroy
-  
+
   belongs_to :user
 end
